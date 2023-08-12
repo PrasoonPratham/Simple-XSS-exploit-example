@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 h-screen flex flex-col items-center justify-center">
+    <div class="bg-white p-8 rounded-xl shadow-md w-96">
+        <h1 class="text-2xl font-bold mb-4">Search Results</h1>
+        <div class="flex space-x-2">
+            <input id="search" type="text" placeholder="Search here" class="border p-2 flex-grow rounded">
+            <button onclick="search()" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-700">Search</button>
+        </div>
+        <div id="results" class="text-gray-700 mt-4"></div>
+    </div>
+    <script>
+    // XSS stands for Cross-Site Scripting. 
+    // This file shows a basic example of how this exploit might take place.
+    
+    function search() {
+        var query = document.getElementById('search').value;
+        var resultsDiv = document.getElementById('results');
+
+        // Create a new div element
+        var newDiv = document.createElement('div');
+        // Set the innerHTML of the new div to the query
+        // This is where the XSS happens
+        newDiv.innerHTML = 'You searched for: ' + query;
+        // newDiv.textContent = 'You searched for: ' + query; prevents XSS
+
+        // or you can sanitize the input before it is displayed like so
+        // newDiv.textContent = 'You searched for: ' + sanitize(query);
+        // function sanitize(str) {
+        //     return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+        // }
+        // this is regex that replaces the characters &, <, and " with their html entity equivalents
+        // it is still recommended to use textContent instead of innerHTML
+    
+        // Clear the previous results and append the new div
+        resultsDiv.innerHTML = '';
+        resultsDiv.appendChild(newDiv);
+    }
+        // Modern browsers have safeguards for XSS attacks in innerHTML 
+        // However using using the img tag with onerror attribute bypasses this, put this in the search bar and run search
+        // <img src='x' onerror='alert("You have been hacked!")'>
+    </script>
+</body>
+</html>
+
