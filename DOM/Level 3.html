@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 h-screen flex flex-col items-center justify-center">
+    <div class="bg-white p-8 rounded-xl shadow-md w-96">
+        <h1 class="text-2xl font-bold mb-4">Simple Calculator</h1>
+        <div class="flex space-x-2">
+            <input id="search" type="text" placeholder="Calculation : 2+3" class="border p-2 flex-grow rounded">
+            <button onclick="search()" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-700">Search</button>
+        </div>
+        
+        <div id="results" class="text-gray-700 mt-4"></div>
+    </div>
+    <script>
+    // XSS stands for Cross-Site Scripting. 
+    // This file shows a basic example of how this exploit might take place.
+
+    function search() {
+        var query = document.getElementById('search').value;
+        var result = eval(query);
+        // The Javascript eval() function is used to evaluate the expression
+        var resultsDiv = document.getElementById('results');
+        var element = `<p>${result}</p>`
+        resultsDiv.innerHTML = element;
+
+        // exploit: alert('You have been hacked')
+        //Never pass user query directly to eval function.
+    }
+      
+   
+    </script>
+</body>
+</html>
+
